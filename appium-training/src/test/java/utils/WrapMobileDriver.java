@@ -3,6 +3,7 @@ package utils;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.options.BaseOptions;
 
@@ -19,7 +20,7 @@ public class WrapMobileDriver {
         try {
             switch (platform) {
                 case "ios":
-                    BaseOptions options = new BaseOptions()
+                    BaseOptions iOSOptions = new BaseOptions()
                             .amend("platformName", "iOS")
                             .amend("appium:platformVersion", "17.2")
                             .amend("appium:app",
@@ -32,9 +33,19 @@ public class WrapMobileDriver {
                             .amend("appium:newCommandTimeout", 3600)
                             .amend("appium:connectHardwareKeyboard", true);
 
-                    driver = new IOSDriver(new URL(appiumUrl), options);
+                    driver = new IOSDriver(new URL(appiumUrl), iOSOptions);
                     break;
                 case "android":
+                    BaseOptions androidOptions = new BaseOptions()
+                            .amend("platformName", "Android")
+                            .amend("appium:platformVersion", "12.0")
+                            .amend("appium:app",
+                                    "/Users/jojedava/accenture-appium-g2/nexoqa_training_basic_appium/appium-training/builds/android/selendroid-test-app.apk")
+                            .amend("appium:deviceName", "emulator-5554")
+                            .amend("appium:automationName", "UiAutomator2")
+                            .amend("appium:autoGrantPermissions", true)
+                            .amend("appium:fullReset", true);
+                    driver = new AndroidDriver(new URL(appiumUrl), androidOptions);
 
                     break;
                 default:
